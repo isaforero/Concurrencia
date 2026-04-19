@@ -1,0 +1,46 @@
+import java.util.ArrayList; 
+
+public class BuzonConsolidacion{
+    
+    private ArrayList<Evento> eventos;
+    private int tam;
+    private int tipo;
+
+    public BuzonConsolidacion(int pTipo, int pTam){
+        tam = pTam;
+        tipo = pTipo;
+        eventos = new ArrayList<Evento>();
+    }
+
+    public synchronized void agregarEvento(Evento pEventoAgregar){
+        while(eventos.size() == tam){
+            try{
+                wait();
+            }
+            catch(Exception e){
+                //
+            }
+        }
+        eventos.add(pEventoAgregar);
+        notify();
+    }
+
+    public synchronized Evento retirarEvento(){
+        while(eventos.size() == 0){
+            try{
+                wait();
+            }
+            catch(Exception e){
+                //
+            }
+        }
+        Evento eventoRetirado = eventos.get(0);
+        eventos.remove(eventoRetirado);
+        notify();
+        return eventoRetirado;
+    }
+
+    public void darEventos(){
+        System.out.println("HOLA BUZON CONSOLIDACION - " + eventos.size());
+    }
+}
