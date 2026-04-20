@@ -18,17 +18,18 @@ public class BuzonEvento{
             try{
                 wait();
             }
-            catch(Exception e){
-                //
+            catch(InterruptedException e){
+                Thread.currentThread().interrupt();
+                return null;
             }
         }
-        Evento EventoRetirar = eventos.get(0);
-        eventos.remove(EventoRetirar);
-        return EventoRetirar;
+        Evento eventoRetirar = eventos.get(0);
+        eventos.remove(eventoRetirar);
+        return eventoRetirar;
     }
 
 
-    public int eventosEnElBuzon(){
+    public synchronized int eventosEnElBuzon(){
         return eventos.size();
     }
 

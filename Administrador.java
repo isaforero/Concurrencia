@@ -24,6 +24,9 @@ public class Administrador extends Thread{
 
         while(!terminar){
             Evento eventoRetirado = buzonAlerta.retirarEvento();
+            if(eventoRetirado == null){
+                return;
+            }
             if(eventoRetirado.darEventoFin()){
                 terminar = true;
             }

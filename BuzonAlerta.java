@@ -10,23 +10,27 @@ public class BuzonAlerta{
 
     public synchronized void agregarEvento(Evento pEventoAgregar){
         eventos.add(pEventoAgregar);
+        notify();
     }
 
-    public Evento retirarEvento(){
+    public synchronized Evento retirarEvento(){
         while(eventos.size() == 0){
             try{
-                Thread.yield();
+                wait();
             }
-            catch(Exception e){
-                //
+            catch(InterruptedException e){
+                Thread.currentThread().interrupt();
+                return null;
             }
         }
 
-        Evento eventoRetirado = eventos.get(0);
-        eventos.remove(eventoRetirado);
+        Evento eventoRetirado = eventos.remove(0);
         return eventoRetirado;
     }
 
+    public synchronized int eventosEnElBuzon(){
+        return eventos.size();
+    }
 
     public void darEventos(){
         System.out.println("HOLA BUZON ALERTA" + "   -   "+ eventos.size());

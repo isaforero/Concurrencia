@@ -67,6 +67,37 @@ public class Main {
 
         }   
 
+        try{
+            for(int i = 0; i < numSensores_ni; i++){
+                sensores[i].join();
+            }
+
+            broker.join();
+            administrador.join();
+
+            for(int i = 0; i < numClasificasdores_nc; i++){
+                clasificadores[i].join();
+            }
+
+            for(int i = 0; i < numServidores_ns; i++){
+                servidores[i].join();
+            }
+        }
+        catch(InterruptedException e){
+            Thread.currentThread().interrupt();
+            System.out.println("Ejecucion interrumpida: " + e.getMessage());
+            return;
+        }
+
+        boolean buzonesVacios = buzonEvento.eventosEnElBuzon() == 0
+                && buzonAlerta.eventosEnElBuzon() == 0
+                && buzonClasificacion.eventosEnElBuzon() == 0;
+
+        for(int i = 0; i < numServidores_ns; i++){
+            buzonesVacios = buzonesVacios && buzonesConsolidacion[i].eventosEnElBuzon() == 0;
+        }
+
+        System.out.println("Buzones vacios al final: " + buzonesVacios);
 
     }
 }

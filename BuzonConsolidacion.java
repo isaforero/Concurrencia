@@ -17,8 +17,9 @@ public class BuzonConsolidacion{
             try{
                 wait();
             }
-            catch(Exception e){
-                //
+            catch(InterruptedException e){
+                Thread.currentThread().interrupt();
+                return;
             }
         }
         eventos.add(pEventoAgregar);
@@ -30,17 +31,21 @@ public class BuzonConsolidacion{
             try{
                 wait();
             }
-            catch(Exception e){
-                //
+            catch(InterruptedException e){
+                Thread.currentThread().interrupt();
+                return null;
             }
         }
-        Evento eventoRetirado = eventos.get(0);
-        eventos.remove(eventoRetirado);
+        Evento eventoRetirado = eventos.remove(0);
         notify();
         return eventoRetirado;
     }
 
     public void darEventos(){
         System.out.println("HOLA BUZON CONSOLIDACION - " + eventos.size());
+    }
+
+    public synchronized int eventosEnElBuzon(){
+        return eventos.size();
     }
 }

@@ -13,6 +13,9 @@ public class Servidor extends Thread{
         boolean terminar = false;
         while(!terminar){
             Evento eventoRetirado = buzonConsolidacion.retirarEvento();
+            if(eventoRetirado == null){
+                return;
+            }
             if(eventoRetirado.darEventoFin()){
                 terminar = true;
             }
@@ -21,8 +24,9 @@ public class Servidor extends Thread{
                 try{
                     Thread.sleep(tiempolectura);
                 }
-                catch(Exception e){
-                    //
+                catch(InterruptedException e){
+                    Thread.currentThread().interrupt();
+                    return;
                 }
                 //System.out.println(eventoRetirado.darTipoServidor() + " - " + eventoRetirado.darNombre());
             }

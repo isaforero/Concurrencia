@@ -26,6 +26,9 @@ public class Broker extends Thread{
         while(eventosRetirados < totalEventos){
 
             Evento eventoRetirado = buzonEventos.retirarEvento();
+            if(eventoRetirado == null){
+                return;
+            }
             eventosRetirados = eventosRetirados + 1;
 
             int decisionEnvioBuzon = random.nextInt(201);
