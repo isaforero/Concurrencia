@@ -44,6 +44,10 @@ public class BuzonClasificacion{
     return clasificadoresActivos == 0;
     }
 
+    public synchronized int eventosEnElBuzon(){
+        return eventos.size();
+    }
+
     public void darEventos(){
         System.out.println("HOLA BUZON CLASIFICACION" + "   -   "+ eventos.size());
 
