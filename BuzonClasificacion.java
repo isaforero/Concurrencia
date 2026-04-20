@@ -22,7 +22,6 @@ public class BuzonClasificacion{
                     return;
                 }
             }
-            // Espera semi-activa requerida por el caso para este buzon limitado.
             Thread.yield();
         }
     }
@@ -40,15 +39,10 @@ public class BuzonClasificacion{
         }
     }
 
-    public synchronized boolean identificarUltimoClasificador(){
-        clasificadoresActivos = clasificadoresActivos-1;
-        return clasificadoresActivos == 0;
+    public synchronized boolean identificarUltimoClasificador() {
+    clasificadoresActivos--;
+    return clasificadoresActivos == 0;
     }
-
-    public synchronized int eventosEnElBuzon(){
-        return eventos.size();
-    }
-
 
     public void darEventos(){
         System.out.println("HOLA BUZON CLASIFICACION" + "   -   "+ eventos.size());
